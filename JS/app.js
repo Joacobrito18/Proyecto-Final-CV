@@ -6,19 +6,14 @@ $(document).ready(function() {
     });
 
     const bars = document.querySelectorAll('.progreso-bar');
-
     bars.forEach(function(bar) {
         let percentage = bar.dataset.percent;
         let tooltip = bar.children[0];
         tooltip.innerText = percentage + '%';
         bar.style.width = percentage + '%';
-        console.log(percentage);
-    })
+    });
 
-    // contador
     const counters = document.querySelectorAll('.contador');
-    console.log(counters);
-
     function runCounter() {
         counters.forEach(counter => {
             counter.innerText = 0;
@@ -27,23 +22,21 @@ $(document).ready(function() {
             
             let countIt = function() {
                 let displayedCount = +counter.innerText;
-                if(displayedCount < target){
+                if (displayedCount < target) {
                     counter.innerText = Math.ceil(displayedCount + step);
                     setTimeout(countIt, 10);
                 } else {
                     counter.innerText = target;
                 }
-            }
+            };
             countIt();
-        })
+        });
     }
 
     runCounter();
-    let counterSection = document.querySelector('.counter-section');
 
-    let options = {
-        rootMargin: '0px 0px -200px 0px'
-    }
+    let counterSection = document.querySelector('.counter-section');
+    let options = { rootMargin: '0px 0px -200px 0px' };
     let done = 0;
 
     const sectionObserver = new IntersectionObserver(function(entries){
@@ -51,40 +44,49 @@ $(document).ready(function() {
             done = 1;
             runCounter();
         }
-    }, options)
-    
+    }, options);
 
     sectionObserver.observe(counterSection);
 
-    //slider
     $('.slider').slick({
         arrows: false,
         autoplay: true,
-        autoPlaySpeed: 10000,
-        Infinity: true,
+        autoplaySpeed: 10000,
+        infinite: true,
     });
 
-    //descarga
-    
-    const downloadButton = document.querySelector("#download-button");
-    downloadButton.addEventListener("click", () => {
-    
-    const link = document.createElement("a");
-    link.setAttribute("download", "cv.pdf");
-    link.href = "Downloads.pdf";
+    const form = document.querySelector('form');
+    const nameInput = form.querySelector('input[type="text"]');
+    const emailInput = form.querySelector('input[type="email"]');
+    const messageInput = form.querySelector('textarea');
+    const submitButton = form.querySelector('button[type="submit"]');
 
-    
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    submitButton.disabled = true;
+
+    function checkFormCompletion() {
+        if (nameInput.value.trim() !== '' && emailInput.value.trim() !== '' && messageInput.value.trim() !== '') {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
+        }
+    }
+
+    nameInput.addEventListener('input', checkFormCompletion);
+    emailInput.addEventListener('input', checkFormCompletion);
+    messageInput.addEventListener('input', checkFormCompletion);
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        alert('Tu mensaje ha sido enviado exitosamente. ¡Gracias por contactarme!');
+
+        form.reset();
+        
+        submitButton.disabled = true;
     });
 
-    //quise crear una opcion para que se descargara el cv sin un backend, pero no me funciono
-
-
-    //boton para imprimir
-    const printButton = document.querySelector("button");
+    const printButton = document.querySelector("#print-button");
     printButton.addEventListener("click", () => {
-    window.print();
-});
+        window.print();
+    });
 });

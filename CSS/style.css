@@ -617,6 +617,23 @@ section.contact .wrapper .right button:hover {
     background: var(--secundary);
 }
 
+section.contact button[type="submit"]:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: none;
+    opacity: 0.6;
+    border: 1px solid #aaaaaa;
+}
+
+section.contact button[type="submit"]:disabled:hover {
+    background-color: #cccccc;
+    color: #666666; 
+    cursor: not-allowed;
+    opacity: 0.6;
+    border: 1px solid #aaaaaa;
+}
+
+
 footer {
     background: var(--footer);
     text-align: center;
